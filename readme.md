@@ -43,9 +43,40 @@ sudo docker network create services
 sudo docker-compose -f /root/dcawgs/docker-compose.yml up -d
 ```
 
+## Usage
+
+This is just an example for running Apache:
+
+```yaml
+version: "3"
+
+services:
+  own-web:
+    image: httpd:alpine
+    restart: always
+    networks:
+      - outside
+    environment:
+      VIRTUAL_HOST: mydomain.com
+      LETSENCRYPT_HOST: mydomain.com
+
+networks:
+  outside:
+    external:
+      name: services
+```
+
+## Learn more
+
+- [nginx-proxy][proxy] documentation includes a lot of advanced topics.
+- The excellent [repository][companion] which served as the base for this one.
+
 ## License
 
 This project is released under the [MIT license](license.txt).
 
 [docker]: https://docs.docker.com/engine/install/ubuntu/
 [compose]: https://docs.docker.com/compose/install/
+[proxy]: https://github.com/nginx-proxy/nginx-proxy#docker-compose
+[companion]:
+  https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion
